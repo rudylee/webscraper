@@ -1,0 +1,53 @@
+<html>
+    <head>
+	<title>Scitek Scrapper</title>
+	<script type="text/javascript" src="js/jquery.js"></script>
+	<script type="text/javascript" src="js/jquery.xdomainajax.js"></script>
+	<script>
+	    $("#productselector").addClass("loading");
+	    $(document).ready(function() {
+		$("#productselector").ajaxStart(function(){
+		    $("#productselector").addClass("loading")
+		});
+		$.ajax({
+		    url: 'http://www.pfeiffer-vacuum.com/ajax/productselector.action?',
+		    type: 'GET',
+		    success: function(res) {
+			$("#productselector").removeClass("loading").html(res.responseText);
+		    }
+		});
+		//$('#productselector').load('http://www.pfeiffer-vacuum.com/ajax/productselector.action'); // SERIOUSLY!
+		$("#productselector form.panel select").live("change",b);
+	    });
+	    function b(){
+		var d=$("#productselector");
+		var e=$(this).parents("form").serialize();
+		$.ajax({
+		    url: 'http://www.pfeiffer-vacuum.com/ajax/productselector.action?'+e,
+		    type: 'GET',
+		    beforeSend: function() {
+			$("#productselector").addClass("loading");
+		    },
+		    success: function(res) {
+			$("#productselector").removeClass("loading").html(res.responseText);
+		    }
+		});
+	    }
+	</script>
+	<style>
+	    .loading {
+		background:#FAFAFA url('spinner.gif') 50% 40% no-repeat;
+	    }
+	    .loading * {
+		visibility:hidden;
+	    }
+	    legend {
+		display:none;
+	    }
+        </style>
+    </head>
+    <body>
+	<div id="productselector">
+	</div>
+    </body>
+</html>

@@ -1,0 +1,7 @@
+#productselector.loading {
+    background:#FAFAFA url('spinner.gif') 50% 40% no-repeat;
+}
+
+#productselector.loading * {
+    display:none;
+}
